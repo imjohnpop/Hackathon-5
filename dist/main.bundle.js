@@ -85,24 +85,33 @@ var App = function (_React$Component) {
     }
 
     _createClass(App, [{
+        key: 'taskWasAdded',
+        value: function taskWasAdded() {
+            this.header.raiseNrOfTasks();
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 'div',
                 { id: 'page container' },
-                _react2.default.createElement(_Header2.default, null),
+                _react2.default.createElement(_Header2.default, { ref: function ref(el) {
+                        _this2.header = el;
+                    } }),
                 _react2.default.createElement(
                     'div',
                     { id: 'main' },
                     _react2.default.createElement(
                         'div',
                         { className: 'row my-5' },
-                        _react2.default.createElement(_Form2.default, null)
+                        _react2.default.createElement(_Form2.default, { functionToRun: this.taskWasAdded.bind(this) })
                     ),
                     _react2.default.createElement(
                         'div',
                         { className: 'row mx-auto my-5' },
-                        _react2.default.createElement(_Tasks2.default, null),
+                        _react2.default.createElement(_Tasks2.default, { taskWasAdded: this.taskWasAdded.bind(this) }),
                         _react2.default.createElement(_Logs2.default, null)
                     )
                 )
@@ -152,27 +161,34 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Header = function (_React$Component) {
     _inherits(Header, _React$Component);
 
-    function Header() {
+    function Header(props) {
         _classCallCheck(this, Header);
 
-        return _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+
+        _this.state = {
+            tasks: 0
+        };
+        return _this;
     }
 
     _createClass(Header, [{
+        key: 'raiseNrOfTasks',
+        value: function raiseNrOfTasks() {
+            this.setState({
+                tasks: this.state.tasks + 1
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(
                 'nav',
-                { className: 'navbar navbar-expand-lg navbar-dark bg-dark' },
+                { className: 'navbar navbar-expand-sm navbar-dark bg-dark' },
                 _react2.default.createElement(
                     'h3',
                     { className: 'navbar-brand' },
                     'The Work Log'
-                ),
-                _react2.default.createElement(
-                    'button',
-                    { className: 'navbar-toggler', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbarNav', 'aria-controls': 'navbarNav', 'aria-expanded': 'false', 'aria-label': 'Toggle navigation' },
-                    _react2.default.createElement('span', { className: 'navbar-toggler-icon' })
                 ),
                 _react2.default.createElement(
                     'div',
@@ -190,7 +206,9 @@ var Header = function (_React$Component) {
                                 _react2.default.createElement(
                                     'span',
                                     null,
-                                    '(0)'
+                                    '(',
+                                    this.state.tasks,
+                                    ')'
                                 )
                             )
                         ),
@@ -256,36 +274,69 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Form = function (_React$Component) {
     _inherits(Form, _React$Component);
 
-    function Form() {
+    function Form(props) {
         _classCallCheck(this, Form);
 
-        return _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+        _this.state = {
+            input_name: ''
+        };
+        return _this;
     }
 
     _createClass(Form, [{
+        key: 'formSubmitted',
+        value: function formSubmitted(event) {
+            var _this2 = this;
+
+            event.preventDefault();
+            _jquery2.default.ajax({
+                method: 'post',
+                url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/tasks/create',
+                data: {
+                    name: this.state.input_name
+                }
+            }).done(function (data) {
+                _this2.props.functionToRun();
+            });
+        }
+    }, {
+        key: 'nameChanged',
+        value: function nameChanged(event) {
+            this.setState({
+                input_name: event.target.value
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return _react2.default.createElement(
                 'div',
                 { id: 'form', className: 'col-6 mx-auto' },
                 _react2.default.createElement(
                     'form',
-                    { action: '', method: 'post' },
+                    { action: '', onSubmit: function onSubmit(event) {
+                            return _this3.formSubmitted(event);
+                        } },
                     _react2.default.createElement(
                         'div',
                         { className: 'form-group' },
                         _react2.default.createElement(
                             'label',
-                            { htmlFor: 'taskname' },
+                            { htmlFor: 'name' },
                             'Add a new task!'
                         ),
-                        _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'taskname', id: 'taskname', placeholder: 'Add your to do task here...' })
+                        _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'name', id: 'name',
+                            placeholder: 'Add your to do task here...',
+                            value: this.state.input_name,
+                            onChange: function onChange(event) {
+                                return _this3.nameChanged(event);
+                            } })
                     ),
-                    _react2.default.createElement(
-                        'button',
-                        { type: 'submit', className: 'btn btn-dark' },
-                        'Submit'
-                    )
+                    _react2.default.createElement('input', { type: 'submit', className: 'btn btn-dark', value: 'Submit' })
                 )
             );
         }

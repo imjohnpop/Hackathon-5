@@ -10,24 +10,27 @@ import Logs from "./Logs";
 
 export default class App extends React.Component {
 
+    taskWasAdded() {
+        this.header.raiseNrOfTasks();
+    }
 
     render() {
         return (
             <div id="page container">
 
-                <Header/>
+                <Header ref={ (el) => {this.header = el;} }/>
 
                 <div id="main">
 
                     <div className="row my-5">
 
-                       <Form/>
+                       <Form functionToRun={ this.taskWasAdded.bind(this) }/>
 
                     </div>
 
                     <div className="row mx-auto my-5">
 
-                        <Tasks />
+                        <Tasks taskWasAdded={ this.taskWasAdded.bind(this) }/>
 
                         <Logs />
 

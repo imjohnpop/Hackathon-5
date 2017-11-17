@@ -11,7 +11,11 @@ import Logs from "./Logs";
 export default class App extends React.Component {
 
     taskWasAdded() {
-        this.header.raiseNrOfTasks();
+        this.tasks.refreshTasks();
+    }
+
+    setNrOfTasks(nr_of_tasks) {
+        this.header.raiseNrOfTasks(nr_of_tasks);
     }
 
     render() {
@@ -24,13 +28,13 @@ export default class App extends React.Component {
 
                     <div className="row my-5">
 
-                       <Form functionToRun={ this.taskWasAdded.bind(this) }/>
+                       <Form taskWasAdded={ this.taskWasAdded.bind(this) }  />
 
                     </div>
 
                     <div className="row mx-auto my-5">
 
-                        <Tasks taskWasAdded={ this.taskWasAdded.bind(this) }/>
+                        <Tasks ref={(el) => {this.tasks = el;}} setNrOfTasks={ this.setNrOfTasks.bind(this) }/>
 
                         <Logs />
 

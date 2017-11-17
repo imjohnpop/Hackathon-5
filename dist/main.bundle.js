@@ -87,7 +87,12 @@ var App = function (_React$Component) {
     _createClass(App, [{
         key: 'taskWasAdded',
         value: function taskWasAdded() {
-            this.header.raiseNrOfTasks();
+            this.tasks.refreshTasks();
+        }
+    }, {
+        key: 'setNrOfTasks',
+        value: function setNrOfTasks(nr_of_tasks) {
+            this.header.raiseNrOfTasks(nr_of_tasks);
         }
     }, {
         key: 'render',
@@ -106,12 +111,14 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'row my-5' },
-                        _react2.default.createElement(_Form2.default, { functionToRun: this.taskWasAdded.bind(this) })
+                        _react2.default.createElement(_Form2.default, { taskWasAdded: this.taskWasAdded.bind(this) })
                     ),
                     _react2.default.createElement(
                         'div',
                         { className: 'row mx-auto my-5' },
-                        _react2.default.createElement(_Tasks2.default, { taskWasAdded: this.taskWasAdded.bind(this) }),
+                        _react2.default.createElement(_Tasks2.default, { ref: function ref(el) {
+                                _this2.tasks = el;
+                            }, setNrOfTasks: this.setNrOfTasks.bind(this) }),
                         _react2.default.createElement(_Logs2.default, null)
                     )
                 )
@@ -174,9 +181,9 @@ var Header = function (_React$Component) {
 
     _createClass(Header, [{
         key: 'raiseNrOfTasks',
-        value: function raiseNrOfTasks() {
+        value: function raiseNrOfTasks(nr_of_tasks) {
             this.setState({
-                tasks: this.state.tasks + 1
+                tasks: nr_of_tasks
             });
         }
     }, {
@@ -298,7 +305,7 @@ var Form = function (_React$Component) {
                     name: this.state.input_name
                 }
             }).done(function (data) {
-                _this2.props.functionToRun();
+                _this2.props.taskWasAdded();
             });
         }
     }, {
@@ -407,11 +414,11 @@ var Tasks = function (_React$Component) {
         key: 'componentDidMount',
         value: function componentDidMount() {
 
-            this.refreshPosts();
+            this.refreshTasks();
         }
     }, {
-        key: 'refreshPosts',
-        value: function refreshPosts() {
+        key: 'refreshTasks',
+        value: function refreshTasks() {
 
             var self = this;
             _jquery2.default.ajax({
@@ -422,6 +429,7 @@ var Tasks = function (_React$Component) {
                 self.setState({
                     tasks: data
                 });
+                self.props.setNrOfTasks(data.length);
             });
         }
     }, {

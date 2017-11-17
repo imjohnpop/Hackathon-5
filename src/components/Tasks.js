@@ -18,11 +18,11 @@ export default class Tasks extends React.Component {
 
     componentDidMount() {
 
-        this.refreshPosts();
+        this.refreshTasks();
 
     }
 
-    refreshPosts() {
+    refreshTasks() {
 
         let self = this;
         $.ajax({
@@ -31,8 +31,10 @@ export default class Tasks extends React.Component {
         }).done(function(data) {
             console.log(data);
             self.setState({
-                tasks: data
-            })
+                tasks: data,
+            });
+            self.props.setNrOfTasks(data.length);
+
 
         });
     }

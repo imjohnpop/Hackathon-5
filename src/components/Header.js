@@ -11,9 +11,9 @@ export default class Header extends React.Component {
             tasks: 0
         }
     }
-    raiseNrOfTasks() {
+    raiseNrOfTasks(nr_of_tasks) {
         this.setState({
-            tasks: this.state.tasks + 1
+            tasks: nr_of_tasks
         })
     }
 

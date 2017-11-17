@@ -12,7 +12,6 @@ export default class Logs extends React.Component {
 
         this.state = {
             logs: [],
-
         }
     }
 
@@ -36,7 +35,6 @@ export default class Logs extends React.Component {
                 logs: data,
             });
             self.props.setNrOfLogs(data.length);
-            console.log('refreshed');
         });
     }
 
@@ -48,6 +46,8 @@ export default class Logs extends React.Component {
                 key={this.state.logs[i].id}
                 user_id={this.state.logs[i].user_id}
                 task_id={this.state.logs[i].task_id}
+                task_name={this.state.logs[i].task_name}
+                logged_at={this.state.logs[i].logged_at}
                 // name={this.state.logs[i].name}
                 // total={this.state.tasks[i].total}
             />;

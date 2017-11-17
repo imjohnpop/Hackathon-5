@@ -16,8 +16,7 @@ export default class Button extends React.Component {
         this.setState({
            hidden:true
         });
-        $('#'+this.state.id).detach();
-        console.log(this.state.id);
+        this.props.finished();
     }
 
     render() {

@@ -15,6 +15,7 @@ export default class Task extends React.Component {
             url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs/create',
             data: {
                 task_id: this.props.id,
+                task_name: this.props.name,
                 duration: 0
             }
         }).done((data) => {

@@ -538,6 +538,7 @@ var Task = function (_React$Component) {
                 url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs/create',
                 data: {
                     task_id: this.props.id,
+                    task_name: this.props.name,
                     duration: 0
                 }
             }).done(function (data) {
@@ -635,7 +636,6 @@ var Logs = function (_React$Component) {
 
         _this.state = {
             logs: []
-
         };
         return _this;
     }
@@ -662,7 +662,6 @@ var Logs = function (_React$Component) {
                     logs: data
                 });
                 self.props.setNrOfLogs(data.length);
-                console.log('refreshed');
             });
         }
     }, {
@@ -674,7 +673,9 @@ var Logs = function (_React$Component) {
                 logs[i] = _react2.default.createElement(_Log2.default, {
                     key: this.state.logs[i].id,
                     user_id: this.state.logs[i].user_id,
-                    task_id: this.state.logs[i].task_id
+                    task_id: this.state.logs[i].task_id,
+                    task_name: this.state.logs[i].task_name,
+                    logged_at: this.state.logs[i].logged_at
                     // name={this.state.logs[i].name}
                     // total={this.state.tasks[i].total}
                 });
@@ -737,12 +738,41 @@ var Log = function (_React$Component) {
     function Log(props) {
         _classCallCheck(this, Log);
 
-        return _possibleConstructorReturn(this, (Log.__proto__ || Object.getPrototypeOf(Log)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Log.__proto__ || Object.getPrototypeOf(Log)).call(this, props));
+
+        _this.state = {
+            finished: false
+        };
+        return _this;
     }
 
     _createClass(Log, [{
+        key: 'finished',
+        value: function finished() {
+            this.setState({
+                finished: true
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+
+            if (this.state.finished) {
+                var ms = Date.now() - Date.parse(this.props.logged_at);
+                var sec = ms / 1000;
+                var min = sec % 60;
+                var hour = min % 60;
+                var day = hour % 24;
+                var final = "Finished in: " + ms;
+                console.log(sec);
+                console.log(min);
+                console.log(hour);
+                console.log(day);
+            } else {
+                var time = this.props.logged_at;
+                var final = "Created at: " + time;
+            }
+
             return _react2.default.createElement(
                 'div',
                 { className: 'log card' },
@@ -752,14 +782,14 @@ var Log = function (_React$Component) {
                     _react2.default.createElement(
                         'h4',
                         { className: 'card-title' },
-                        this.props.task_id
+                        this.props.task_name
                     ),
                     _react2.default.createElement(
                         'p',
                         { className: 'card-text' },
-                        'asdasdasd'
+                        final
                     ),
-                    _react2.default.createElement(_Button2.default, { key: this.props.id, id: this.props.id })
+                    _react2.default.createElement(_Button2.default, { finished: this.finished.bind(this), key: this.props.id, id: this.props.id })
                 )
             );
         }
@@ -825,8 +855,7 @@ var Button = function (_React$Component) {
             this.setState({
                 hidden: true
             });
-            (0, _jquery2.default)('#' + this.state.id).detach();
-            console.log(this.state.id);
+            this.props.finished();
         }
     }, {
         key: 'render',

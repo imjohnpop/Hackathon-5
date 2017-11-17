@@ -29,13 +29,10 @@ export default class Tasks extends React.Component {
             type: 'get',
             url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/tasks'
         }).done(function(data) {
-            console.log(data);
             self.setState({
                 tasks: data,
             });
             self.props.setNrOfTasks(data.length);
-
-
         });
     }
     render() {

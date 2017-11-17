@@ -8,12 +8,18 @@ export default class Header extends React.Component {
         super(props);
 
         this.state = {
-            tasks: 0
+            tasks: 0,
+            logs: 0
         }
     }
     raiseNrOfTasks(nr_of_tasks) {
         this.setState({
             tasks: nr_of_tasks
+        })
+    }
+    raiseNrOfLogs(nr_of_logs) {
+        this.setState({
+            logs: nr_of_logs
         })
     }
 
@@ -27,7 +33,7 @@ export default class Header extends React.Component {
                             <h6 className="nav-link">Tasks <span>({ this.state.tasks })</span></h6>
                         </li>
                         <li className="nav-item">
-                            <h6 className="nav-link">Logs <span>(0)</span></h6>
+                            <h6 className="nav-link">Logs <span>({ this.state.logs })</span></h6>
                         </li>
                     </ul>
                 </div>

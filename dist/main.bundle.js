@@ -305,6 +305,7 @@ var Form = function (_React$Component) {
                     name: this.state.input_name
                 }
             }).done(function (data) {
+                (0, _jquery2.default)('#name').value = '';
                 _this2.props.taskWasAdded();
             });
         }

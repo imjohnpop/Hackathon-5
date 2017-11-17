@@ -18,7 +18,8 @@ export default class Form extends React.Component {
                 name: this.state.input_name,
             }
         }).done((data) => {
-            this.props.taskWasAdded();
+            $('#name').value = '';
+            this.props.refreshList();
         })
     }
     nameChanged(event){

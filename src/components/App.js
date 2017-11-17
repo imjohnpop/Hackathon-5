@@ -10,12 +10,16 @@ import Logs from "./Logs";
 
 export default class App extends React.Component {
 
-    taskWasAdded() {
+    refreshList() {
         this.tasks.refreshTasks();
+        this.logs.refreshLogs();
     }
 
     setNrOfTasks(nr_of_tasks) {
         this.header.raiseNrOfTasks(nr_of_tasks);
+    }
+    setNrOfLogs(nr_of_logs) {
+        this.header.raiseNrOfLogs(nr_of_logs);
     }
 
     render() {
@@ -36,7 +40,7 @@ export default class App extends React.Component {
 
                         <Tasks ref={(el) => {this.tasks = el;}} setNrOfTasks={ this.setNrOfTasks.bind(this) }/>
 
-                        <Logs />
+                        <Logs ref={(el) => {this.logs = el;}} setNrOfLogs={ this.setNrOfLogs.bind(this) }/>
 
                     </div>
 

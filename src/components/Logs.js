@@ -54,7 +54,7 @@ export default class Logs extends React.Component {
         }
 
         return (
-            <div id="logs_list" className="col-6 border border-dark">
+            <div id="logs_list" className="col-6">
                 { logs }
             </div>
         )

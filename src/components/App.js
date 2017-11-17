@@ -26,6 +26,9 @@ export default class App extends React.Component {
         this.header.raiseNrOfLogs(nr_of_logs);
     }
 
+
+
+
     render() {
         return (
             <div id="page container">

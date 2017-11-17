@@ -51,7 +51,7 @@ export default class Tasks extends React.Component {
             />;
         }
         return (
-            <div id="tasks_list" className="col-6 border border-dark">
+            <div id="tasks_list" className="col-6">
                 { tasks }
             </div>
         )

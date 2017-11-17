@@ -1,4 +1,7 @@
-.nav-item,
 .btn {
     cursor: pointer;
+}
+
+.task, .log {
+    margin-bottom: 1em;
 }

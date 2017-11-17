@@ -87,9 +87,144 @@ var App = function (_React$Component) {
     _createClass(App, [{
         key: 'render',
         value: function render() {
-            // return (
-            //     // something
-            // )
+            return _react2.default.createElement(
+                'div',
+                { id: 'page container' },
+                _react2.default.createElement(
+                    'nav',
+                    { className: 'navbar navbar-expand-lg navbar-dark bg-dark' },
+                    _react2.default.createElement(
+                        'h3',
+                        { className: 'navbar-brand' },
+                        'The Work Log'
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { className: 'navbar-toggler', type: 'button', 'data-toggle': 'collapse', 'data-target': '#navbarNav', 'aria-controls': 'navbarNav', 'aria-expanded': 'false', 'aria-label': 'Toggle navigation' },
+                        _react2.default.createElement('span', { className: 'navbar-toggler-icon' })
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'collapse navbar-collapse', id: 'navbarNav' },
+                        _react2.default.createElement(
+                            'ul',
+                            { className: 'navbar-nav' },
+                            _react2.default.createElement(
+                                'li',
+                                { className: 'nav-item' },
+                                _react2.default.createElement(
+                                    'h6',
+                                    { className: 'nav-link' },
+                                    'Tasks ',
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        '(0)'
+                                    )
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'li',
+                                { className: 'nav-item' },
+                                _react2.default.createElement(
+                                    'h6',
+                                    { className: 'nav-link' },
+                                    'Logs ',
+                                    _react2.default.createElement(
+                                        'span',
+                                        null,
+                                        '(0)'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { id: 'main' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row my-5' },
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'form', className: 'col-6 mx-auto' },
+                            _react2.default.createElement(
+                                'form',
+                                { action: '', method: 'post' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'form-group' },
+                                    _react2.default.createElement(
+                                        'label',
+                                        { htmlFor: 'taskname' },
+                                        'Add a new task!'
+                                    ),
+                                    _react2.default.createElement('input', { className: 'form-control', type: 'text', name: 'taskname', id: 'taskname', placeholder: 'Add your to do task here...' })
+                                ),
+                                _react2.default.createElement(
+                                    'button',
+                                    { type: 'submit', className: 'btn btn-dark' },
+                                    'Submit'
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row mx-auto my-5' },
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'tasks_list', className: 'col-6 border border-dark' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'task card' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'card-body' },
+                                    _react2.default.createElement(
+                                        'h4',
+                                        { className: 'card-title' },
+                                        'To Do Task'
+                                    ),
+                                    _react2.default.createElement(
+                                        'p',
+                                        { className: 'card-text' },
+                                        'Find a job.'
+                                    ),
+                                    _react2.default.createElement(
+                                        'button',
+                                        { className: 'btn btn-dark' },
+                                        _react2.default.createElement('i', { className: 'fa fa-plus-square text-light', 'aria-hidden': 'true' })
+                                    )
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { id: 'logs_list', className: 'col-6 border border-dark' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'goal card' },
+                                _react2.default.createElement(
+                                    'div',
+                                    { className: 'card-body' },
+                                    _react2.default.createElement(
+                                        'h4',
+                                        { className: 'card-title' },
+                                        'Task In Progress'
+                                    ),
+                                    _react2.default.createElement(
+                                        'p',
+                                        { className: 'card-text' },
+                                        'Do the work log app.'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
         }
     }]);
 

@@ -2,7 +2,7 @@ var webpack = require("webpack");
 
 module.exports = {
     entry: {
-        wall: './src/workclock.js',
+        main: './src/workclock.js',
         vendor: ['react', 'react-dom', 'jquery'] // vendor bundle consisting of various modules
     },
     output: {

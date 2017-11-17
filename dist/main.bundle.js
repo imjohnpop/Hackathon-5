@@ -85,9 +85,13 @@ var App = function (_React$Component) {
     }
 
     _createClass(App, [{
-        key: 'refreshList',
-        value: function refreshList() {
+        key: 'refreshTasks',
+        value: function refreshTasks() {
             this.tasks.refreshTasks();
+        }
+    }, {
+        key: 'refreshLogs',
+        value: function refreshLogs() {
             this.logs.refreshLogs();
         }
     }, {
@@ -117,14 +121,14 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'row my-5' },
-                        _react2.default.createElement(_Form2.default, { taskWasAdded: this.refreshList.bind(this) })
+                        _react2.default.createElement(_Form2.default, { refreshTasks: this.refreshTasks.bind(this) })
                     ),
                     _react2.default.createElement(
                         'div',
                         { className: 'row mx-auto my-5' },
                         _react2.default.createElement(_Tasks2.default, { ref: function ref(el) {
                                 _this2.tasks = el;
-                            }, setNrOfTasks: this.setNrOfTasks.bind(this) }),
+                            }, setNrOfTasks: this.setNrOfTasks.bind(this), refreshLogs: this.refreshLogs.bind(this) }),
                         _react2.default.createElement(_Logs2.default, { ref: function ref(el) {
                                 _this2.logs = el;
                             }, setNrOfLogs: this.setNrOfLogs.bind(this) })
@@ -324,7 +328,7 @@ var Form = function (_React$Component) {
                 }
             }).done(function (data) {
                 (0, _jquery2.default)('#name').value = '';
-                _this2.props.refreshList();
+                _this2.props.refreshTasks();
             });
         }
     }, {
@@ -451,12 +455,18 @@ var Tasks = function (_React$Component) {
             });
         }
     }, {
+        key: 'logAdd',
+        value: function logAdd() {
+            this.props.refreshLogs();
+        }
+    }, {
         key: 'render',
         value: function render() {
             var tasks = [];
             for (var i in this.state.tasks) {
-                tasks[i] = _react2.default.createElement(_Task2.default, {
+                tasks[i] = _react2.default.createElement(_Task2.default, { logAdd: this.logAdd.bind(this),
                     key: this.state.tasks[i].id,
+                    id: this.state.tasks[i].id,
                     name: this.state.tasks[i].name
                     // total={this.state.tasks[i].total}
                 });
@@ -527,10 +537,11 @@ var Task = function (_React$Component) {
                 method: 'post',
                 url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs/create',
                 data: {
-                    name: this.state.input_name
+                    task_id: this.props.id,
+                    duration: 0
                 }
             }).done(function (data) {
-                _this2.props.refreshList();
+                _this2.props.logAdd();
             });
         }
     }, {
@@ -642,12 +653,16 @@ var Logs = function (_React$Component) {
             var self = this;
             _jquery2.default.ajax({
                 type: 'get',
-                url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs'
+                url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs',
+                data: {
+                    limit: 100
+                }
             }).done(function (data) {
                 self.setState({
                     logs: data
                 });
                 self.props.setNrOfLogs(data.length);
+                console.log('refreshed');
             });
         }
     }, {

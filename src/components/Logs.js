@@ -27,12 +27,16 @@ export default class Logs extends React.Component {
         let self = this;
         $.ajax({
             type: 'get',
-            url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs'
+            url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs',
+            data: {
+                limit: 100,
+            }
         }).done(function(data) {
             self.setState({
                 logs: data,
             });
             self.props.setNrOfLogs(data.length);
+            console.log('refreshed');
         });
     }
 

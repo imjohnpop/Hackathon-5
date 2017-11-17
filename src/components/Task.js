@@ -14,10 +14,11 @@ export default class Task extends React.Component {
             method: 'post',
             url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs/create',
             data: {
-                name: this.state.input_name,
+                task_id: this.props.id,
+                duration: 0
             }
         }).done((data) => {
-            this.props.refreshList();
+            this.props.logAdd();
         })
     }
 

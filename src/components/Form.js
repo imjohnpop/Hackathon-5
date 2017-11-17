@@ -19,7 +19,7 @@ export default class Form extends React.Component {
             }
         }).done((data) => {
             $('#name').value = '';
-            this.props.refreshList();
+            this.props.refreshTasks();
         })
     }
     nameChanged(event){

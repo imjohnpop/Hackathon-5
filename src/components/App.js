@@ -10,8 +10,11 @@ import Logs from "./Logs";
 
 export default class App extends React.Component {
 
-    refreshList() {
+    refreshTasks() {
         this.tasks.refreshTasks();
+    }
+
+    refreshLogs() {
         this.logs.refreshLogs();
     }
 
@@ -33,13 +36,13 @@ export default class App extends React.Component {
 
                     <div className="row my-5">
 
-                       <Form taskWasAdded={ this.refreshList.bind(this) }  />
+                       <Form refreshTasks={ this.refreshTasks.bind(this) }  />
 
                     </div>
 
                     <div className="row mx-auto my-5">
 
-                        <Tasks ref={(el) => {this.tasks = el;}} setNrOfTasks={ this.setNrOfTasks.bind(this) }/>
+                        <Tasks ref={(el) => {this.tasks = el;}} setNrOfTasks={ this.setNrOfTasks.bind(this) } refreshLogs={ this.refreshLogs.bind(this) } />
 
                         <Logs ref={(el) => {this.logs = el;}} setNrOfLogs={ this.setNrOfLogs.bind(this) }/>
 

@@ -35,11 +35,17 @@ export default class Tasks extends React.Component {
             self.props.setNrOfTasks(data.length);
         });
     }
+
+    logAdd() {
+        this.props.refreshLogs();
+    }
+
     render() {
         let tasks = [];
         for(let i in this.state.tasks) {
-            tasks[i] = <Task
+            tasks[i] = <Task logAdd={ this.logAdd.bind(this) }
                 key={this.state.tasks[i].id}
+                id={this.state.tasks[i].id}
                 name={this.state.tasks[i].name}
                 // total={this.state.tasks[i].total}
             />;

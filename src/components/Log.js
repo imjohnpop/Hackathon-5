@@ -4,41 +4,41 @@ import $ from 'jquery';
 import Button from './Button.js';
 
 export default class Log extends React.Component {
-
     constructor(props) {
         super(props);
-
-
-
         this.state={
             finished: false
         }
     }
-
     finished() {
         this.setState({
             finished: true
         });
     }
-
-    render() {
-
-        if(this.state.finished) {
-            var ms = Date.now() - Date.parse(this.props.logged_at);
-            var sec = ms/1000;
-            var min = sec % 60;
-            var hour = min % 60;
-            var day = hour % 24;
-            var final = "Finished in: "+ ms;
-            console.log(sec);
-            console.log(min);
-            console.log(hour);
-            console.log(day);
-        } else {
-            var time = this.props.logged_at;
-            var final = "Created at: "+ time;
+    msToTime(x) {
+        // Pad to 2 or 3 digits, default is 2
+        function pad(n, z) {
+            z = z || 2;
+            return ('00' + n).slice(-z);
         }
-
+        let ms = x % 1000;
+        x = (x - ms) / 1000;
+        let secs = x % 60;
+        x = (x - secs) / 60;
+        let mins = x % 60;
+        let hrs = (x - mins) / 60;
+        let time = pad(hrs) + 'hr:' + pad(mins) + 'min:' + pad(secs) + 'sec';
+        return time;
+    }
+    render() {
+        if(this.state.finished) {
+            let ms = Date.now() - Date.parse(this.props.logged_at);
+            let time = this.msToTime(ms);
+            var final = "Finished in: " + time;
+        } else {
+            let time = this.props.logged_at;
+            var final = "Created at: " + time;
+        }
         return (
             <div className="log card">
                 <div className="card-body">

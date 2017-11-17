@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 export default class Button extends React.Component {
-
     constructor(props) {
         super(props);
         this.state={
@@ -11,14 +10,12 @@ export default class Button extends React.Component {
             hidden: false
         }
     }
-
     logCompleted() {
         this.setState({
            hidden:true
         });
         this.props.finished();
     }
-
     render() {
         if(this.state.hidden) {
             return null;

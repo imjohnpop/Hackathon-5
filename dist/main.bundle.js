@@ -136,7 +136,7 @@ var App = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                { id: 'page container' },
+                { id: 'page container', className: 'bg-success' },
                 _react2.default.createElement(_Header2.default, { ref: function ref(el) {
                         _this2.header = el;
                     } }),
@@ -495,7 +495,7 @@ var Tasks = function (_React$Component) {
             }
             return _react2.default.createElement(
                 'div',
-                { id: 'tasks_list', className: 'col-6' },
+                { id: 'tasks_list', className: 'col-4 ml-auto' },
                 tasks
             );
         }
@@ -583,13 +583,6 @@ var Task = function (_React$Component) {
                         this.props.name
                     ),
                     _react2.default.createElement(
-                        'p',
-                        { className: 'card-text' },
-                        'Time spend: ',
-                        this.props.total,
-                        ' minutes'
-                    ),
-                    _react2.default.createElement(
                         'button',
                         { className: 'btn btn-dark', onClick: function onClick(event) {
                                 return _this3.taskLogged(event);
@@ -671,13 +664,11 @@ var Logs = function (_React$Component) {
     _createClass(Logs, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
-
             this.refreshLogs();
         }
     }, {
         key: 'refreshLogs',
         value: function refreshLogs() {
-
             var self = this;
             _jquery2.default.ajax({
                 type: 'get',
@@ -706,7 +697,6 @@ var Logs = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-
             var logs = [];
             for (var i in this.state.logs) {
                 logs[i] = _react2.default.createElement(_Log2.default, {
@@ -719,10 +709,12 @@ var Logs = function (_React$Component) {
                     // total={this.state.tasks[i].total}
                 });
             }
-
             var paginations = [];
             console.log(this.state.currentPage);
-            for (var _i = this.state.currentPage + 1; _i < this.state.currentPage + 4; _i++) {
+            for (var _i = this.state.currentPage - 1; _i < this.state.currentPage + 2; _i++) {
+                if (_i <= 0) {
+                    continue;
+                }
                 paginations[_i] = _react2.default.createElement(_Pagination2.default, { selectPage: this.selectPage.bind(this),
                     key: _i,
                     id: _i
@@ -731,15 +723,15 @@ var Logs = function (_React$Component) {
             console.log(paginations);
             return _react2.default.createElement(
                 'div',
-                { id: 'logs_wrapper' },
+                { id: 'logs_wrapper', className: 'col-4 mr-auto' },
                 _react2.default.createElement(
                     'div',
-                    { id: 'logs_list', className: 'col-6' },
+                    { id: 'logs_list', className: 'col-12' },
                     logs
                 ),
                 _react2.default.createElement(
                     'div',
-                    { id: 'buttons' },
+                    { id: 'buttons', className: 'd-flex justify-content-center' },
                     paginations
                 )
             );
@@ -810,25 +802,33 @@ var Log = function (_React$Component) {
             });
         }
     }, {
+        key: 'msToTime',
+        value: function msToTime(x) {
+            // Pad to 2 or 3 digits, default is 2
+            function pad(n, z) {
+                z = z || 2;
+                return ('00' + n).slice(-z);
+            }
+            var ms = x % 1000;
+            x = (x - ms) / 1000;
+            var secs = x % 60;
+            x = (x - secs) / 60;
+            var mins = x % 60;
+            var hrs = (x - mins) / 60;
+            var time = pad(hrs) + 'hr:' + pad(mins) + 'min:' + pad(secs) + 'sec';
+            return time;
+        }
+    }, {
         key: 'render',
         value: function render() {
-
             if (this.state.finished) {
                 var ms = Date.now() - Date.parse(this.props.logged_at);
-                var sec = ms / 1000;
-                var min = sec % 60;
-                var hour = min % 60;
-                var day = hour % 24;
-                var final = "Finished in: " + ms;
-                console.log(sec);
-                console.log(min);
-                console.log(hour);
-                console.log(day);
+                var time = this.msToTime(ms);
+                var final = "Finished in: " + time;
             } else {
-                var time = this.props.logged_at;
-                var final = "Created at: " + time;
+                var _time = this.props.logged_at;
+                var final = "Created at: " + _time;
             }
-
             return _react2.default.createElement(
                 'div',
                 { className: 'log card' },

@@ -7,10 +7,8 @@ import Log from "./Log";
 import Pagination from "./Pagination";
 
 export default class Logs extends React.Component {
-
     constructor(props) {
         super(props);
-
         this.state = {
             logs: [],
             onPage: 4,
@@ -19,15 +17,10 @@ export default class Logs extends React.Component {
         };
 
     }
-
     componentDidMount() {
-
         this.refreshLogs();
-
     }
-
     refreshLogs() {
-
         let self = this;
         $.ajax({
             type: 'get',
@@ -43,7 +36,6 @@ export default class Logs extends React.Component {
             self.props.setNrOfLogs(data.length);
         });
     }
-
     selectPage(id) {
         this.setState({
             currentPage: id,
@@ -54,7 +46,6 @@ export default class Logs extends React.Component {
     }
 
     render() {
-
         let logs = [];
         for(let i in this.state.logs) {
             logs[i] = <Log
@@ -67,10 +58,12 @@ export default class Logs extends React.Component {
                 // total={this.state.tasks[i].total}
             />;
         }
-
         let paginations = [];
         console.log(this.state.currentPage);
-        for(let i = this.state.currentPage + 1; i < this.state.currentPage + 4; i++) {
+        for(let i = this.state.currentPage - 1; i < this.state.currentPage + 2; i++) {
+            if(i <= 0) {
+                continue;
+            }
             paginations[i] = <Pagination selectPage={ this.selectPage.bind(this) }
                 key= {i}
                 id={i}
@@ -78,12 +71,12 @@ export default class Logs extends React.Component {
         }
         console.log(paginations);
         return (
-            <div id="logs_wrapper">
-                <div id="logs_list" className="col-6">
+            <div id="logs_wrapper" className="col-4 mr-auto">
+                <div id="logs_list" className="col-12">
                     { logs }
                 </div>
 
-                <div id="buttons">
+                <div id="buttons" className="d-flex justify-content-center">
                     { paginations }
                 </div>
             </div>

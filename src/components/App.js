@@ -31,7 +31,7 @@ export default class App extends React.Component {
 
     render() {
         return (
-            <div id="page container">
+            <div id="page container" className="bg-success">
 
                 <Header ref={ (el) => {this.header = el;} }/>
 

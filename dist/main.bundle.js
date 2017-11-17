@@ -85,14 +85,20 @@ var App = function (_React$Component) {
     }
 
     _createClass(App, [{
-        key: 'taskWasAdded',
-        value: function taskWasAdded() {
+        key: 'refreshList',
+        value: function refreshList() {
             this.tasks.refreshTasks();
+            this.logs.refreshLogs();
         }
     }, {
         key: 'setNrOfTasks',
         value: function setNrOfTasks(nr_of_tasks) {
             this.header.raiseNrOfTasks(nr_of_tasks);
+        }
+    }, {
+        key: 'setNrOfLogs',
+        value: function setNrOfLogs(nr_of_logs) {
+            this.header.raiseNrOfLogs(nr_of_logs);
         }
     }, {
         key: 'render',
@@ -111,7 +117,7 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'row my-5' },
-                        _react2.default.createElement(_Form2.default, { taskWasAdded: this.taskWasAdded.bind(this) })
+                        _react2.default.createElement(_Form2.default, { taskWasAdded: this.refreshList.bind(this) })
                     ),
                     _react2.default.createElement(
                         'div',
@@ -119,7 +125,9 @@ var App = function (_React$Component) {
                         _react2.default.createElement(_Tasks2.default, { ref: function ref(el) {
                                 _this2.tasks = el;
                             }, setNrOfTasks: this.setNrOfTasks.bind(this) }),
-                        _react2.default.createElement(_Logs2.default, null)
+                        _react2.default.createElement(_Logs2.default, { ref: function ref(el) {
+                                _this2.logs = el;
+                            }, setNrOfLogs: this.setNrOfLogs.bind(this) })
                     )
                 )
             );
@@ -174,7 +182,8 @@ var Header = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 
         _this.state = {
-            tasks: 0
+            tasks: 0,
+            logs: 0
         };
         return _this;
     }
@@ -184,6 +193,13 @@ var Header = function (_React$Component) {
         value: function raiseNrOfTasks(nr_of_tasks) {
             this.setState({
                 tasks: nr_of_tasks
+            });
+        }
+    }, {
+        key: 'raiseNrOfLogs',
+        value: function raiseNrOfLogs(nr_of_logs) {
+            this.setState({
+                logs: nr_of_logs
             });
         }
     }, {
@@ -229,7 +245,9 @@ var Header = function (_React$Component) {
                                 _react2.default.createElement(
                                     'span',
                                     null,
-                                    '(0)'
+                                    '(',
+                                    this.state.logs,
+                                    ')'
                                 )
                             )
                         )
@@ -306,7 +324,7 @@ var Form = function (_React$Component) {
                 }
             }).done(function (data) {
                 (0, _jquery2.default)('#name').value = '';
-                _this2.props.taskWasAdded();
+                _this2.props.refreshList();
             });
         }
     }, {
@@ -426,7 +444,6 @@ var Tasks = function (_React$Component) {
                 type: 'get',
                 url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/tasks'
             }).done(function (data) {
-                console.log(data);
                 self.setState({
                     tasks: data
                 });
@@ -501,8 +518,26 @@ var Task = function (_React$Component) {
     }
 
     _createClass(Task, [{
+        key: 'taskLogged',
+        value: function taskLogged(event) {
+            var _this2 = this;
+
+            event.preventDefault();
+            _jquery2.default.ajax({
+                method: 'post',
+                url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs/create',
+                data: {
+                    name: this.state.input_name
+                }
+            }).done(function (data) {
+                _this2.props.refreshList();
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return _react2.default.createElement(
                 'div',
                 { className: 'task card' },
@@ -523,7 +558,9 @@ var Task = function (_React$Component) {
                     ),
                     _react2.default.createElement(
                         'button',
-                        { className: 'btn btn-dark' },
+                        { className: 'btn btn-dark', onClick: function onClick(event) {
+                                return _this3.taskLogged(event);
+                            } },
                         _react2.default.createElement('i', { className: 'fa fa-plus-square text-light', 'aria-hidden': 'true' })
                     )
                 )
@@ -610,7 +647,7 @@ var Logs = function (_React$Component) {
                 self.setState({
                     logs: data
                 });
-                // self.props.setNrOfLogs(data.length);
+                self.props.setNrOfLogs(data.length);
             });
         }
     }, {

@@ -32,7 +32,7 @@ export default class Logs extends React.Component {
             self.setState({
                 logs: data,
             });
-            // self.props.setNrOfLogs(data.length);
+            self.props.setNrOfLogs(data.length);
         });
     }
 

@@ -18,6 +18,7 @@ export default class App extends React.Component {
     setNrOfTasks(nr_of_tasks) {
         this.header.raiseNrOfTasks(nr_of_tasks);
     }
+
     setNrOfLogs(nr_of_logs) {
         this.header.raiseNrOfLogs(nr_of_logs);
     }
@@ -32,7 +33,7 @@ export default class App extends React.Component {
 
                     <div className="row my-5">
 
-                       <Form taskWasAdded={ this.taskWasAdded.bind(this) }  />
+                       <Form taskWasAdded={ this.refreshList.bind(this) }  />
 
                     </div>
 

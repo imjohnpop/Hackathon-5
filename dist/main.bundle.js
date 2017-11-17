@@ -1,6 +1,21 @@
-webpackJsonp([0],{
-
-/***/ 16:
+webpackJsonp([0],[
+/* 0 */,
+/* 1 */,
+/* 2 */,
+/* 3 */,
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -23,8 +38,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), document.getElementById('react-app'));
 
 /***/ }),
-
-/***/ 28:
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */,
+/* 23 */,
+/* 24 */,
+/* 25 */,
+/* 26 */,
+/* 27 */,
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -44,7 +69,7 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -144,8 +169,7 @@ var App = function (_React$Component) {
 exports.default = App;
 
 /***/ }),
-
-/***/ 29:
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -165,7 +189,7 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -267,8 +291,7 @@ var Header = function (_React$Component) {
 exports.default = Header;
 
 /***/ }),
-
-/***/ 30:
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -288,7 +311,7 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -378,8 +401,7 @@ var Form = function (_React$Component) {
 exports.default = Form;
 
 /***/ }),
-
-/***/ 31:
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -399,7 +421,7 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -485,8 +507,7 @@ var Tasks = function (_React$Component) {
 exports.default = Tasks;
 
 /***/ }),
-
-/***/ 32:
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -506,7 +527,7 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -586,8 +607,7 @@ var Task = function (_React$Component) {
 exports.default = Task;
 
 /***/ }),
-
-/***/ 33:
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -607,13 +627,17 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
 var _Log = __webpack_require__(34);
 
 var _Log2 = _interopRequireDefault(_Log);
+
+var _Pagination = __webpack_require__(36);
+
+var _Pagination2 = _interopRequireDefault(_Pagination);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -635,8 +659,12 @@ var Logs = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Logs.__proto__ || Object.getPrototypeOf(Logs)).call(this, props));
 
         _this.state = {
-            logs: []
+            logs: [],
+            onPage: 4,
+            currentPage: 1,
+            offset: 1
         };
+
         return _this;
     }
 
@@ -655,7 +683,8 @@ var Logs = function (_React$Component) {
                 type: 'get',
                 url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs',
                 data: {
-                    limit: 100
+                    limit: 4,
+                    offset: this.state.offset
                 }
             }).done(function (data) {
                 self.setState({
@@ -663,6 +692,16 @@ var Logs = function (_React$Component) {
                 });
                 self.props.setNrOfLogs(data.length);
             });
+        }
+    }, {
+        key: 'selectPage',
+        value: function selectPage(id) {
+            this.setState({
+                currentPage: id,
+                offset: this.state.onPage * (id - 1)
+            });
+
+            this.refreshLogs();
         }
     }, {
         key: 'render',
@@ -681,10 +720,28 @@ var Logs = function (_React$Component) {
                 });
             }
 
+            var paginations = [];
+            console.log(this.state.currentPage);
+            for (var _i = this.state.currentPage + 1; _i < this.state.currentPage + 4; _i++) {
+                paginations[_i] = _react2.default.createElement(_Pagination2.default, { selectPage: this.selectPage.bind(this),
+                    key: _i,
+                    id: _i
+                });
+            }
+            console.log(paginations);
             return _react2.default.createElement(
                 'div',
-                { id: 'logs_list', className: 'col-6' },
-                logs
+                { id: 'logs_wrapper' },
+                _react2.default.createElement(
+                    'div',
+                    { id: 'logs_list', className: 'col-6' },
+                    logs
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { id: 'buttons' },
+                    paginations
+                )
             );
         }
     }]);
@@ -695,8 +752,7 @@ var Logs = function (_React$Component) {
 exports.default = Logs;
 
 /***/ }),
-
-/***/ 34:
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -716,7 +772,7 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -801,8 +857,7 @@ var Log = function (_React$Component) {
 exports.default = Log;
 
 /***/ }),
-
-/***/ 35:
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -822,7 +877,7 @@ var _reactDom = __webpack_require__(1);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _jquery = __webpack_require__(3);
+var _jquery = __webpack_require__(2);
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -877,6 +932,73 @@ var Button = function (_React$Component) {
 
 exports.default = Button;
 
-/***/ })
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
 
-},[16]);
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(1);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _jquery = __webpack_require__(2);
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Pagination = function (_React$Component) {
+    _inherits(Pagination, _React$Component);
+
+    function Pagination(props) {
+        _classCallCheck(this, Pagination);
+
+        return _possibleConstructorReturn(this, (Pagination.__proto__ || Object.getPrototypeOf(Pagination)).call(this, props));
+    }
+
+    _createClass(Pagination, [{
+        key: 'generateLogs',
+        value: function generateLogs(id) {
+
+            this.props.selectPage(id);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return _react2.default.createElement(
+                'button',
+                { onClick: function onClick() {
+                        _this2.generateLogs(_this2.props.id);
+                    }, className: 'btn-dark' },
+                this.props.id
+            );
+        }
+    }]);
+
+    return Pagination;
+}(_react2.default.Component);
+
+exports.default = Pagination;
+
+/***/ })
+],[16]);

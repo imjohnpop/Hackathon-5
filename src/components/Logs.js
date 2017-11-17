@@ -4,6 +4,7 @@ import $ from 'jquery';
 
 // Components imports
 import Log from "./Log";
+import Pagination from "./Pagination";
 
 export default class Logs extends React.Component {
 
@@ -12,7 +13,11 @@ export default class Logs extends React.Component {
 
         this.state = {
             logs: [],
-        }
+            onPage: 4,
+            currentPage: 1,
+            offset: 1
+        };
+
     }
 
     componentDidMount() {
@@ -28,7 +33,8 @@ export default class Logs extends React.Component {
             type: 'get',
             url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs',
             data: {
-                limit: 100,
+                limit: 4,
+                offset: this.state.offset
             }
         }).done(function(data) {
             self.setState({
@@ -36,6 +42,15 @@ export default class Logs extends React.Component {
             });
             self.props.setNrOfLogs(data.length);
         });
+    }
+
+    selectPage(id) {
+        this.setState({
+            currentPage: id,
+            offset: this.state.onPage * (id-1)
+        });
+
+        this.refreshLogs();
     }
 
     render() {
@@ -53,9 +68,24 @@ export default class Logs extends React.Component {
             />;
         }
 
+        let paginations = [];
+        console.log(this.state.currentPage);
+        for(let i = this.state.currentPage + 1; i < this.state.currentPage + 4; i++) {
+            paginations[i] = <Pagination selectPage={ this.selectPage.bind(this) }
+                key= {i}
+                id={i}
+            />;
+        }
+        console.log(paginations);
         return (
-            <div id="logs_list" className="col-6">
-                { logs }
+            <div id="logs_wrapper">
+                <div id="logs_list" className="col-6">
+                    { logs }
+                </div>
+
+                <div id="buttons">
+                    { paginations }
+                </div>
             </div>
         )
     }

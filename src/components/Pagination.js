@@ -4,10 +4,19 @@ import $ from 'jquery';
 
 export default class Pagination extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+    }
+
+    generateLogs(id) {
+
+        this.props.selectPage(id);
+    }
 
     render() {
-        // return (
-        //     // something
-        // )
+        return (
+            <button onClick={() => { this.generateLogs(this.props.id) }} className="btn-dark">{this.props.id}</button>
+        )
     }
 }

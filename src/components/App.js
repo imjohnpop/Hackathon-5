@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 
+// Components imports
 import Header from "./Header";
 import Form from "./Form";
 import Tasks from "./Tasks";

@@ -391,19 +391,54 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Tasks = function (_React$Component) {
     _inherits(Tasks, _React$Component);
 
-    function Tasks() {
+    function Tasks(props) {
         _classCallCheck(this, Tasks);
 
-        return _possibleConstructorReturn(this, (Tasks.__proto__ || Object.getPrototypeOf(Tasks)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Tasks.__proto__ || Object.getPrototypeOf(Tasks)).call(this, props));
+
+        _this.state = {
+            tasks: []
+
+        };
+        return _this;
     }
 
     _createClass(Tasks, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            this.refreshPosts();
+        }
+    }, {
+        key: 'refreshPosts',
+        value: function refreshPosts() {
+
+            var self = this;
+            _jquery2.default.ajax({
+                type: 'get',
+                url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/tasks'
+            }).done(function (data) {
+                console.log(data);
+                self.setState({
+                    tasks: data
+                });
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var tasks = [];
+            for (var i in this.state.tasks) {
+                tasks[i] = _react2.default.createElement(_Task2.default, {
+                    key: this.state.tasks[i].id,
+                    name: this.state.tasks[i].name
+                    // total={this.state.tasks[i].total}
+                });
+            }
             return _react2.default.createElement(
                 'div',
                 { id: 'tasks_list', className: 'col-6 border border-dark' },
-                _react2.default.createElement(_Task2.default, null)
+                tasks
             );
         }
     }]);
@@ -450,10 +485,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Task = function (_React$Component) {
     _inherits(Task, _React$Component);
 
-    function Task() {
+    function Task(props) {
         _classCallCheck(this, Task);
 
-        return _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (Task.__proto__ || Object.getPrototypeOf(Task)).call(this, props));
     }
 
     _createClass(Task, [{
@@ -468,12 +503,14 @@ var Task = function (_React$Component) {
                     _react2.default.createElement(
                         'h4',
                         { className: 'card-title' },
-                        'To Do Task'
+                        this.props.name
                     ),
                     _react2.default.createElement(
                         'p',
                         { className: 'card-text' },
-                        'Find a job.'
+                        'Time spend: ',
+                        this.props.total,
+                        ' minutes'
                     ),
                     _react2.default.createElement(
                         'button',

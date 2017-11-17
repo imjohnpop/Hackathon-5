@@ -4,13 +4,16 @@ import $ from 'jquery';
 
 export default class Task extends React.Component {
 
+    constructor(props) {
+        super(props);
+    }
 
     render() {
         return (
             <div className="task card">
                 <div className="card-body">
-                    <h4 className="card-title">To Do Task</h4>
-                    <p className="card-text">Find a job.</p>
+                    <h4 className="card-title">{ this.props.name }</h4>
+                    <p className="card-text">Time spend: { this.props.total } minutes</p>
                     <button className="btn btn-dark"><i className="fa fa-plus-square text-light" aria-hidden="true"></i></button>
                 </div>
             </div>

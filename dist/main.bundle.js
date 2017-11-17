@@ -579,19 +579,58 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Logs = function (_React$Component) {
     _inherits(Logs, _React$Component);
 
-    function Logs() {
+    function Logs(props) {
         _classCallCheck(this, Logs);
 
-        return _possibleConstructorReturn(this, (Logs.__proto__ || Object.getPrototypeOf(Logs)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Logs.__proto__ || Object.getPrototypeOf(Logs)).call(this, props));
+
+        _this.state = {
+            logs: []
+
+        };
+        return _this;
     }
 
     _createClass(Logs, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+
+            this.refreshLogs();
+        }
+    }, {
+        key: 'refreshLogs',
+        value: function refreshLogs() {
+
+            var self = this;
+            _jquery2.default.ajax({
+                type: 'get',
+                url: 'http://classes.codingbootcamp.cz/assets/classes/react-hackathon/api/logs'
+            }).done(function (data) {
+                self.setState({
+                    logs: data
+                });
+                // self.props.setNrOfLogs(data.length);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+
+            var logs = [];
+            for (var i in this.state.logs) {
+                logs[i] = _react2.default.createElement(_Log2.default, {
+                    key: this.state.logs[i].id,
+                    user_id: this.state.logs[i].user_id,
+                    task_id: this.state.logs[i].task_id
+                    // name={this.state.logs[i].name}
+                    // total={this.state.tasks[i].total}
+                });
+            }
+
             return _react2.default.createElement(
                 'div',
                 { id: 'logs_list', className: 'col-6 border border-dark' },
-                _react2.default.createElement(_Log2.default, null)
+                logs
             );
         }
     }]);
@@ -638,10 +677,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Log = function (_React$Component) {
     _inherits(Log, _React$Component);
 
-    function Log() {
+    function Log(props) {
         _classCallCheck(this, Log);
 
-        return _possibleConstructorReturn(this, (Log.__proto__ || Object.getPrototypeOf(Log)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (Log.__proto__ || Object.getPrototypeOf(Log)).call(this, props));
     }
 
     _createClass(Log, [{
@@ -656,12 +695,12 @@ var Log = function (_React$Component) {
                     _react2.default.createElement(
                         'h4',
                         { className: 'card-title' },
-                        'Task In Progress'
+                        this.props.task_id
                     ),
                     _react2.default.createElement(
                         'p',
                         { className: 'card-text' },
-                        'Do the work log app.'
+                        'asdasdasd'
                     )
                 )
             );

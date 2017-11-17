@@ -50,24 +50,9 @@ export default class App extends React.Component {
 
                     <div className="row mx-auto my-5">
 
-                        <div id="tasks_list" className="col-6 border border-dark">
-                            <div className="task card">
-                                <div className="card-body">
-                                    <h4 className="card-title">To Do Task</h4>
-                                    <p className="card-text">Find a job.</p>
-                                    <button className="btn btn-dark"><i className="fa fa-plus-square text-light" aria-hidden="true"></i></button>
-                                </div>
-                            </div>
-                        </div>
+                        <Tasks />
 
-                        <div id="logs_list" className="col-6 border border-dark">
-                            <div className="goal card">
-                                <div className="card-body">
-                                    <h4 className="card-title">Task In Progress</h4>
-                                    <p className="card-text">Do the work log app.</p>
-                                </div>
-                            </div>
-                        </div>
+                        <Logs />
 
                     </div>
 

@@ -9,8 +9,10 @@ export default class Tasks extends React.Component {
 
 
     render() {
-        // return (
-        //     // something
-        // )
+        return (
+            <div id="tasks_list" className="col-6 border border-dark">
+                <Task/>
+            </div>
+        )
     }
 }

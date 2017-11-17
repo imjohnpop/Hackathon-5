@@ -9,8 +9,10 @@ export default class Logs extends React.Component {
 
 
     render() {
-        // return (
-        //     // something
-        // )
+        return (
+            <div id="logs_list" className="col-6 border border-dark">
+                <Log/>
+            </div>
+        )
     }
 }
